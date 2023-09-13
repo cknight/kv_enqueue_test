@@ -34,7 +34,7 @@ async function enqueue(msg: number, delay: number): Promise<void> {
 
   if (result.ok) {
     console.log(
-      `------- Enqueued message for ${new Date(msg).toUTCString()} (UTC)`,
+      `------- Enqueued message for: ${msg} (${new Date(msg).toUTCString()} (UTC))`,
     );
   } else {
     const nextDelivery = (await kv.get(NEXT_UPDATE_KEY)).value as number;
