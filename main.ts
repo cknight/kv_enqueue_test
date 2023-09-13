@@ -24,6 +24,10 @@ console.log("Starting main...");
 const kv = await Deno.openKv();
 
 async function enqueue(msg: number, delay: number): Promise<void> {
+  if (true) {
+    console.log("Temporarily disabling enqueueing of messages");
+    return;
+  }
   const result = await kv.atomic()
     .check({ key: LOCK_KEY, versionstamp: null }) //check no enqueue lock is present
     .enqueue(msg, {
