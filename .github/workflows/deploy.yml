@@ -29,5 +29,5 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "kv-enqueue-example" # 📝 Update the deploy project name if necessary
+          project: "kv_enqueue_test" # 📝 Update the deploy project name if necessary
           entrypoint: "./main.ts" # 📝 Update the entrypoint if necessary
