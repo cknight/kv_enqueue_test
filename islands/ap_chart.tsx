@@ -22,7 +22,7 @@ export default function APChart(props: ChartProps) {
     }
 
     const ctx = document.getElementById("myChart") as HTMLCanvasElement;
-    // @ts-ignore
+
     new Chart(ctx, {
       type: "line",
       data: {
