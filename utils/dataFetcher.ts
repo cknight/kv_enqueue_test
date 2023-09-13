@@ -19,10 +19,11 @@ export async function fetchData(begin?: number) {
   const url =
     `http://api.openweathermap.org/data/2.5/air_pollution/history?lat=${LONDON_LAT}&lon=${LONDON_LON}&start=${start}&end=${end}&appid=${apiKey}`;
 
+  console.log("Fetching data...");
   const resp = await fetch(url);
+  console.log(`Fetched data with status ${resp.status}`);
 
   if (resp.status !== 200) {
-    console.log(`Failed to fetch data with status ${resp.status}`);
     throw new Error(`Failed to fetch data with status ${resp.status}`);
   }
 

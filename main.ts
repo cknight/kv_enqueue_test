@@ -35,13 +35,13 @@ async function enqueue(msg: number, delay: number): Promise<void> {
     .commit();
 
   if (result.ok) {
-    console.log(`Enqueued message for ${new Date(msg).toLocaleTimeString()}`);
+    console.log(`Enqueued message for ${new Date(msg).toUTCString()} (UTC)`);
   } else {
     const nextDelivery = (await kv.get(NEXT_UPDATE_KEY)).value as number;
     console.log(
       `Lock present, a message is already enqueued, ignoring this one. Next delivery at ${
-        new Date(nextDelivery).toLocaleTimeString()
-      }`,
+        new Date(nextDelivery).toUTCString()
+      } (UTC)`,
     );
   }
 }
@@ -50,6 +50,8 @@ async function enqueue(msg: number, delay: number): Promise<void> {
  * msg is the unix timestamp of the expected delivery date/time of the message
  */
 kv.listenQueue(async (msg: unknown) => {
+  console.log(`Received message: ${msg} (${new Date(msg as number).toUTCString()})`);
+
   await kv.delete(LOCK_KEY); // release lock
 
   const now = Date.now();
