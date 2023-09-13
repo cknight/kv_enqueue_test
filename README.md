@@ -32,19 +32,20 @@ thoughts:
 
 - **No ability to see what's queued** - During development I often accidentally
   queued multiple repeating jobs when I only ever want a single one, but it's
-  hard to fix this.
+  hard to know when I've done this.
 - **No queue management** - I can't clear the queue or delete individual queued
   items from it. A 'shadow' queue could be used by keeping track of items on KV
   and handling management through that (e.g. ignoring messages delivered in
   `listenQueue` if they are missing from the 'shadow' queue), but this seems
   clunky (and prone to mistake) when KV must already have this info.
 - **Recurring queue setup is fiddly and potentially brittle** - For example, if
-  the API I'm calling in `listenQueue` is down, and KV exhausts retry attempts
-  to deliver the message, the job will not be rescheduled if I schedule the next
-  one only after successful processing of a message. A recurring job API would
-  be nice.
+  the external API I'm calling within `listenQueue` is down, and KV exhausts
+  retry attempts to deliver the message, the job will not be rescheduled as my
+  code schedules the next one only after successful processing of a message. A
+  recurring job API would be nice and abstract the complexity away from the
+  user.
 - **Docs need significant improvements** - While the basic functionality is well
-  described,there's a lot of nuance missing. Documentation on basic usage
+  described, there's a lot of nuance missing. Documentation on basic usage
   patterns would be good too as would a thorough description of message
   delivery, how and when retries happen, max number of retries, retries backoff
   (if that exists), etc.
@@ -60,3 +61,6 @@ thoughts:
   with. Combining queue's with KV atomic operations gives a strong foundation
   for a serverless environment. Atomic operations really open up a lot of
   possibilities for safe execution of code.
+- **Simple API** - Though the recurring job was challenging to setup in a robust
+  manner, the `enqueue` and `listenQueue` APIs were simple and straightforward.
+  So far they seem to do what is advertised on the tin.

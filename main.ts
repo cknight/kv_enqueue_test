@@ -34,7 +34,9 @@ async function enqueue(msg: number, delay: number): Promise<void> {
 
   if (result.ok) {
     console.log(
-      `------- Enqueued message for: ${msg} (${new Date(msg).toUTCString()} (UTC))`,
+      `------- Enqueued message for: ${msg} (${
+        new Date(msg).toUTCString()
+      } (UTC))`,
     );
   } else {
     const nextDelivery = (await kv.get(NEXT_UPDATE_KEY)).value as number;
@@ -84,6 +86,7 @@ if (startRecurring.ok) {
   await enqueue(Date.now(), 0);
 }
 
+// If there was a failed delivery, restart the recurring job
 const failedKey = await kv.get(DELIVERY_FAILED_KEY);
 if (failedKey.value) {
   const shouldRestart = await kv.atomic().check({
