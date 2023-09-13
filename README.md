@@ -4,14 +4,19 @@ This project is in support of a
 [request for feedback](https://discord.com/channels/684898665143206084/1149351471851257986/1149355026158977048)
 on the new Deno KV queue APIs.
 
+Associated web application: https://kv-enqueue-example.deno.dev/
+
 ## Overview
 
-This project is a [Fresh](https://fresh.deno.dev/) application. On launch it
-sets up an enqueued message to fetch the last hour's particle air pollution
+This project is a [Fresh](https://fresh.deno.dev/) application. On server startup it
+sets up an enqueued message to fetch the last hour's particulate air pollution
 levels (pm2.5 and pm10) in London. This data is added to previously retrieved
 data and the last 7 days worth is retained. Once the last hour's data is
 retrieved, it schedules another job for an hour later to do the same again,
-creating an hourly recurring job.
+creating an hourly recurring job.  As per the API, an isolate will be spun up on Deploy
+if none are running to handle the job execution.
+
+All logic around the new queue APIs can be found in the [main.ts](https://github.com/cknight/kv_enqueue_test/blob/main/main.ts) file.
 
 ## Data
 
@@ -23,7 +28,7 @@ project arbitrarily just gets the last hour's values for demonstration purposes.
 
 In addition to collecting the data, it is also charted on Deploy along with
 stats around the accuracy of the last message delivered and when the next
-message is due to be delivered. You can see this by visting:
+message is due to be delivered. You can see this by visiting: https://kv-enqueue-example.deno.dev/
 
 ## KV Queue Feedback
 
