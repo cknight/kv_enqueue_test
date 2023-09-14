@@ -50,12 +50,12 @@ async function enqueue(msg: number, delay: number): Promise<void> {
  * msg is the unix timestamp of the expected delivery date/time of the message
  */
 kv.listenQueue(async (msg: unknown) => {
-  console.log(
-    `Received message: ${msg} (${new Date(msg as number).toUTCString()})`,
-  );
-
   const now = Date.now();
   const msgTime = Number(msg);
+
+  console.log(
+    `Received message: ${msg} (${new Date(msg as number).toUTCString()}), time diff of ${now - msgTime}ms`,
+  );
 
   // Set stats of delivery accuracy for UI display purposes
   await kv.set(
