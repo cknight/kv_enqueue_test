@@ -41,9 +41,7 @@ async function enqueue(msg: number, delay: number): Promise<void> {
   } else {
     const nextDelivery = (await kv.get(NEXT_UPDATE_KEY)).value as number;
     console.log(
-      `Lock present, a message is already enqueued, ignoring this one. Next delivery at ${
-        new Date(nextDelivery).toUTCString()
-      } (UTC)`,
+      `Failed to queue message for ${msg} (${new Date(msg).toUTCString()} (UTC)), next delivery time is ${nextDelivery} (${new Date(nextDelivery).toUTCString()} (UTC))`,
     );
   }
 }
